@@ -7,6 +7,7 @@ class TicTacToe {
   private static String[][] winBoard = { { "X", empty, empty }, { empty, "X", empty }, { empty, empty, "X" } };
   private static String[] players = { "X", "O" };
 
+  private String winner = " ";
   private String[][] board;
   private int currentPlayer = 0;
 
@@ -14,6 +15,9 @@ class TicTacToe {
     clearBoard();
     printWelcome();
     outputBoard();
+    while (winner == empty) {
+      makeMove();
+    }
   }
 
   private void printWelcome() {
@@ -21,6 +25,8 @@ class TicTacToe {
     System.out.println("=============================");
     System.out.println("Take turns to input a cell number (1-9)");
     System.out.println("");
+
+
     System.out.println("1|2|3");
     System.out.println("4|5|6");
     System.out.println("7|8|9");
@@ -64,6 +70,48 @@ class TicTacToe {
     board[y][x] = players[currentPlayer];
     currentPlayer = (currentPlayer + 1) % 2;
     outputBoard();
+    checkWins();
   }
 
+  private void checkWins() {
+    // TODO: Add support for bigger boards
+
+    // Horizontal
+    for (int i = 0; i < board.length; i++) {
+      String[] row = board[i];
+      if (row[0] == row[1] && row[1] == row[2] && row[2] == row[1]) {
+        // We maybe have a winner
+        if (row[0] != empty) {
+          winner = row[0];
+        }
+      }
+    }
+    // Vertical
+    for (int i = 0; i < board[0].length; i++) {
+      if (board[0][i] == board[1][i] && board[1][i] == board[2][i] && board[2][i] == board[1][i]) {
+        // We maybe have a winner
+        if (board[0][i] != empty) {
+          winner = board[0][i];
+        }
+      }
+    }
+
+    // Across
+    if (board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[2][2] == board[0][0]) {
+      // We maybe have a winner
+      if (board[0][0] != empty) {
+        winner = board[0][0];
+      }
+    }
+
+    if (board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[2][0] == board[0][2]) {
+      // We maybe have a winner
+      if (board[0][0] != empty) {
+        winner = board[0][0];
+      }
+    }
+    if (winner != empty) {
+      System.out.println(winner + " wins!");
+    }
+  }
 }
