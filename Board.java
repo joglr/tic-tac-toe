@@ -28,7 +28,7 @@ class Board {
     return size;
   }
 
-  public void getSize(int newSize) {
+  public void setSize(int newSize) {
     size = newSize;
   }
 
