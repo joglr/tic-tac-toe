@@ -57,8 +57,7 @@ class Board {
     return players[currentPlayer];
   }
 
-  public void outputBoard() {
-    System.out.println("Board:");
+  public void print() {
     System.out.println("");
     for (int i = 0; i < size; i++) {
       String lineOutput = "";

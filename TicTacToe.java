@@ -7,7 +7,7 @@ class TicTacToe {
 
   public TicTacToe() {
     printWelcome();
-    board.outputBoard();
+    board.print();
     String winner = board.EMPTY;
 
     while (!Arrays.stream(board.getPlayers()).anyMatch(winner::equals) || winner == board.TIE) {
@@ -31,7 +31,7 @@ class TicTacToe {
 
     String[][] exampleBoardValues = { { "1", "2", "3" }, { "4", "5", "6" }, { "7", "8", "9" } };
     Board exampleBoard = new Board(exampleBoardValues);
-    exampleBoard.outputBoard();
+    exampleBoard.print();
 
   }
 
@@ -103,7 +103,7 @@ class TicTacToe {
       }
       board.getRow(y).setCell(x, board.getCurrentPlayerSign());
       board.setCurrentPlayer((board.getCurrentPlayer() + 1) % 2);
-      board.outputBoard();
+      board.print();
     } catch (InputMismatchException e) {
       System.out.println("Invalid move.");
     } finally {
