@@ -1,23 +1,26 @@
 import java.util.UUID;
 
 class Board {
-  public int size = 3;
-  protected static String EMPTY = " ";
-  public static String TIE = UUID.randomUUID().toString();
+
+  public static final String EMPTY = " ";
+  public static final String TIE = UUID.randomUUID().toString();
+  public static final String X = "X";
+  public static final String O = "O";
   public static String[][] emptyBoard = { { EMPTY, EMPTY, EMPTY }, { EMPTY, EMPTY, EMPTY }, { EMPTY, EMPTY, EMPTY } };
+  private static String[][] winBoard = { { X, EMPTY, EMPTY }, { EMPTY, "X", EMPTY }, { EMPTY, EMPTY, "X" } };
+  private static String[] players = { X, O };
 
-  private static String[][] winBoard = { { "X", EMPTY, EMPTY }, { EMPTY, "X", EMPTY }, { EMPTY, EMPTY, "X" } };
-  private static String[] players = { "X", "O" };
-
+  public int size;
   protected String[][] board;
-  private int currentPlayer = 0;
+  private int currentPlayer;
+
+  public Board() {
+    board = emptyBoard;
+  }
 
   public Board(String[][] customBoard) {
-    if (customBoard == null) {
-      board = emptyBoard;
-    } else {
-      board = customBoard;
-    }
+    reset();
+    board = customBoard;
   }
 
   public String[] getPlayers() {
@@ -30,6 +33,12 @@ class Board {
 
   public void setSize(int newSize) {
     size = newSize;
+  }
+
+  public void reset() {
+
+    size = 3;
+    currentPlayer = 0;
   }
 
   public Row getRow(int index) {

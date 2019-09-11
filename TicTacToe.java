@@ -6,7 +6,6 @@ class TicTacToe {
   private Board board;
 
   public TicTacToe() {
-    clearBoard();
     printWelcome();
     board.outputBoard();
     String winner = board.EMPTY;
@@ -30,16 +29,10 @@ class TicTacToe {
     System.out.println("Take turns to input a cell number (1-9)");
     System.out.println("");
 
-    Board exampleBoard = new Board()
+    String[][] exampleBoardValues = { { "1", "2", "3" }, { "4", "5", "6" }, { "7", "8", "9" } };
+    Board exampleBoard = new Board(exampleBoardValues);
+    exampleBoard.outputBoard();
 
-    System.out.println("1|2|3");
-    System.out.println("4|5|6");
-    System.out.println("7|8|9");
-    System.out.println("");
-  }
-
-  private void clearBoard() {
-    board = new Board();
   }
 
   public String checkWins() {
@@ -102,13 +95,13 @@ class TicTacToe {
       int x = move % 3;
       int y = move / 3;
 
-      if (board.getBoard()[y][x] != board.EMPTY) {
+      if (board.getRow(y).getCell(x) != board.EMPTY) {
         System.out.println("Invalid move.");
         System.out.println("");
         makeMove();
         return;
       }
-      board.getBoard()[y][x] = board.getCurrentPlayerSign();
+      board.getRow(y).setCell(x, board.getCurrentPlayerSign());
       board.setCurrentPlayer((board.getCurrentPlayer() + 1) % 2);
       board.outputBoard();
     } catch (InputMismatchException e) {
