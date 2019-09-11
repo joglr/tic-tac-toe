@@ -106,6 +106,8 @@ class TicTacToe {
       board.outputBoard();
     } catch (InputMismatchException e) {
       System.out.println("Invalid move.");
+    } finally {
+      s.close();
     }
   }
 
