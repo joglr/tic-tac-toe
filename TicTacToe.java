@@ -95,7 +95,15 @@ class TicTacToe {
       int x = move % 3;
       int y = move / 3;
 
-      if (board.getRow(y).getCell(x) != board.EMPTY) {
+      if (move < 0 || move > board.getSize() * board.getSize() - 1) {
+        System.out.println("Invalid move.");
+        System.out.println("");
+        makeMove();
+        return;
+      }
+      String existingValue = board.getRow(y).getCell(x);
+
+      if (existingValue != board.EMPTY) {
         System.out.println("Invalid move.");
         System.out.println("");
         makeMove();
