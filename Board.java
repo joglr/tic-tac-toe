@@ -7,7 +7,7 @@ class Board {
   public static final String X = "X";
   public static final String O = "O";
   public static String[][] emptyBoard = { { EMPTY, EMPTY, EMPTY }, { EMPTY, EMPTY, EMPTY }, { EMPTY, EMPTY, EMPTY } };
-  private static String[][] winBoard = { { X, EMPTY, EMPTY }, { EMPTY, "X", EMPTY }, { EMPTY, EMPTY, "X" } };
+  private static String[][] winBoard = { { X, EMPTY, EMPTY }, { EMPTY, X, EMPTY }, { EMPTY, EMPTY, X } };
   private static String[] players = { X, O };
 
   public int size;
