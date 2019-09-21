@@ -43,7 +43,7 @@ class TicTacToe {
     // Horizontal
     for (int i = 0; i < board.getSize(); i++) {
       Row row = board.getRow(i);
-      if (row.getCell(0) == row.getCell(1) && row.getCell(1) == row.getCell(2) && row.getCell(2) == row.getCell(1)) {
+      if (row.getCell(0) == row.getCell(1) && row.getCell(1) == row.getCell(2) && row.getCell(2) == row.getCell(0)) {
         // We maybe have a winner
         if (row.getCell(0) != board.EMPTY) {
           winner = row.getCell(0);
@@ -54,7 +54,7 @@ class TicTacToe {
     for (int i = 0; i < board.getRow(0).length(); i++) {
       if (board.getRow(0).getCell(i) == board.getRow(1).getCell(i)
           && board.getRow(1).getCell(i) == board.getRow(2).getCell(i)
-          && board.getRow(2).getCell(i) == board.getRow(1).getCell(i)) {
+          && board.getRow(2).getCell(i) == board.getRow(0).getCell(i)) {
         // We maybe have a winner
         if (board.getRow(0).getCell(i) != board.EMPTY) {
           winner = board.getRow(0).getCell(i);
@@ -67,8 +67,8 @@ class TicTacToe {
         && board.getRow(1).getCell(1) == board.getRow(2).getCell(2)
         && board.getRow(2).getCell(2) == board.getRow(0).getCell(0)) {
       // We maybe have a winner
-      if (board.getRow(0).getCell(0) != board.EMPTY) {
-        winner = board.getRow(0).getCell(0);
+      if (board.getRow(1).getCell(1) != board.EMPTY) {
+        winner = board.getRow(1).getCell(1);
       }
     }
 
@@ -76,8 +76,8 @@ class TicTacToe {
         && board.getRow(1).getCell(1) == board.getRow(2).getCell(0)
         && board.getRow(2).getCell(0) == board.getRow(0).getCell(2)) {
       // We maybe have a winner
-      if (board.getRow(0).getCell(0) != board.EMPTY) {
-        winner = board.getRow(0).getCell(0);
+      if (board.getRow(1).getCell(1) != board.EMPTY) {
+        winner = board.getRow(1).getCell(1);
       }
     }
     if (board.isFull()) {
@@ -117,7 +117,7 @@ class TicTacToe {
     } catch (InputMismatchException e) {
       System.out.println("Invalid move.");
     } finally {
-      s.close();
+      // s.close();
     }
   }
 
