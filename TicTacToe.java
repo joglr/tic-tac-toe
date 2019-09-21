@@ -15,7 +15,7 @@ class TicTacToe {
       makeMove();
       winner = checkWins();
     }
-    if (winner != " ") {
+    if (winner != board.EMPTY) {
       if (winner != board.TIE) {
         System.out.println(winner + " wins!");
       } else {
@@ -38,7 +38,7 @@ class TicTacToe {
 
   public String checkWins() {
     // TODO: Add support for bigger boards
-    String winner = " ";
+    String winner = board.EMPTY;
     // Horizontal
     for (int i = 0; i < board.getSize(); i++) {
       Row row = board.getRow(i);
