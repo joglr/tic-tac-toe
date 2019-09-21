@@ -6,6 +6,7 @@ class TicTacToe {
   private Board board;
 
   public TicTacToe() {
+    board = new Board();
     printWelcome();
     board.print();
     String winner = board.EMPTY;

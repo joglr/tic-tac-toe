@@ -15,6 +15,7 @@ class Board {
   private int currentPlayer;
 
   public Board() {
+    reset();
     board = emptyBoard;
   }
 
@@ -93,7 +94,7 @@ class Board {
 }
 
 class Row {
-  private String[] row = { " ", " ", " " };
+  private String[] row = { Board.EMPTY, Board.EMPTY, Board.EMPTY };
 
   public Row(String[] newRow) {
     row = newRow;
