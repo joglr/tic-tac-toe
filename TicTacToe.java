@@ -30,7 +30,8 @@ class TicTacToe {
     System.out.println("Take turns to input a cell number (1-9)");
     System.out.println("");
 
-    String[][] exampleBoardValues = { { "1", "2", "3" }, { "4", "5", "6" }, { "7", "8", "9" } };
+    System.out.println("Map:");
+    String[][] exampleBoardValues = new String[][] { { "1", "2", "3" }, { "4", "5", "6" }, { "7", "8", "9" } };
     Board exampleBoard = new Board(exampleBoardValues);
     exampleBoard.print();
 
