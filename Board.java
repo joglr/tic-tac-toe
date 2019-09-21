@@ -87,6 +87,9 @@ class Board {
           break;
         }
       }
+      if (!isFull) {
+        break;
+      }
     }
     return isFull;
   }
