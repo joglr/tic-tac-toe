@@ -1,22 +1,26 @@
+import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 class TicTacToe {
-
-  private static String empty = " ";
-  private static String[][] emptyBoard = { { empty, empty, empty }, { empty, empty, empty }, { empty, empty, empty } };
-  private static String[][] winBoard = { { "X", empty, empty }, { empty, "X", empty }, { empty, empty, "X" } };
-  private static String[] players = { "X", "O" };
-
-  private String winner = " ";
-  private String[][] board;
-  private int currentPlayer = 0;
+  private Board board;
 
   public TicTacToe() {
-    clearBoard();
+    board = new Board();
     printWelcome();
-    outputBoard();
-    while (winner == empty) {
+    board.print();
+    String winner = board.EMPTY;
+
+    while (!Arrays.stream(board.getPlayers()).anyMatch(winner::equals) || winner == board.TIE) {
       makeMove();
+      winner = checkWins();
+    }
+    if (winner != board.EMPTY) {
+      if (winner != board.TIE) {
+        System.out.println(winner + " wins!");
+      } else {
+        System.out.println("It's a tie!");
+      }
     }
   }
 
@@ -26,92 +30,95 @@ class TicTacToe {
     System.out.println("Take turns to input a cell number (1-9)");
     System.out.println("");
 
+    System.out.println("Map:");
+    String[][] exampleBoardValues = new String[][] { { "1", "2", "3" }, { "4", "5", "6" }, { "7", "8", "9" } };
+    Board exampleBoard = new Board(exampleBoardValues);
+    exampleBoard.print();
 
-    System.out.println("1|2|3");
-    System.out.println("4|5|6");
-    System.out.println("7|8|9");
-    System.out.println("");
   }
 
-  private void clearBoard() {
-    board = emptyBoard;
-  }
-
-  private void outputBoard() {
-    System.out.println("Board:");
-    System.out.println("");
-    for (int i = 0; i < board.length; i++) {
-      String lineOutput = "";
-      String[] row = board[i];
-      for (int ii = 0; ii < row.length; ii++) {
-        lineOutput = String.join(" | ", row);
-      }
-      System.out.println(lineOutput);
-      if (i != board.length - 1) {
-        System.out.println("---------");
-      }
-    }
-    System.out.println("");
-  }
-
-  private void makeMove() {
-    System.out.println("It is " + players[(currentPlayer)] + "'s turn. Type a number from 1-9");
-    Scanner s = new Scanner(System.in);
-    int move = s.nextInt() - 1;
-    s.nextLine();
-    int x = move % 3;
-    int y = move / 3;
-
-    if (board[y][x] != empty) {
-      System.out.println("Invalid move. Pick another");
-      makeMove();
-      return;
-    }
-    board[y][x] = players[currentPlayer];
-    currentPlayer = (currentPlayer + 1) % 2;
-    outputBoard();
-    checkWins();
-  }
-
-  private void checkWins() {
+  public String checkWins() {
     // TODO: Add support for bigger boards
-
+    String winner = board.EMPTY;
     // Horizontal
-    for (int i = 0; i < board.length; i++) {
-      String[] row = board[i];
-      if (row[0] == row[1] && row[1] == row[2] && row[2] == row[1]) {
+    for (int i = 0; i < board.getSize(); i++) {
+      Row row = board.getRow(i);
+      if (row.getCell(0) == row.getCell(1) && row.getCell(1) == row.getCell(2) && row.getCell(2) == row.getCell(0)) {
         // We maybe have a winner
-        if (row[0] != empty) {
-          winner = row[0];
+        if (row.getCell(0) != board.EMPTY) {
+          winner = row.getCell(0);
         }
       }
     }
     // Vertical
-    for (int i = 0; i < board[0].length; i++) {
-      if (board[0][i] == board[1][i] && board[1][i] == board[2][i] && board[2][i] == board[1][i]) {
+    for (int i = 0; i < board.getRow(0).length(); i++) {
+      if (board.getRow(0).getCell(i) == board.getRow(1).getCell(i)
+          && board.getRow(1).getCell(i) == board.getRow(2).getCell(i)
+          && board.getRow(2).getCell(i) == board.getRow(0).getCell(i)) {
         // We maybe have a winner
-        if (board[0][i] != empty) {
-          winner = board[0][i];
+        if (board.getRow(0).getCell(i) != board.EMPTY) {
+          winner = board.getRow(0).getCell(i);
         }
       }
     }
 
     // Across
-    if (board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[2][2] == board[0][0]) {
+    if (board.getRow(0).getCell(0) == board.getRow(1).getCell(1)
+        && board.getRow(1).getCell(1) == board.getRow(2).getCell(2)
+        && board.getRow(2).getCell(2) == board.getRow(0).getCell(0)) {
       // We maybe have a winner
-      if (board[0][0] != empty) {
-        winner = board[0][0];
+      if (board.getRow(1).getCell(1) != board.EMPTY) {
+        winner = board.getRow(1).getCell(1);
       }
     }
 
-    if (board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[2][0] == board[0][2]) {
+    if (board.getRow(0).getCell(2) == board.getRow(1).getCell(1)
+        && board.getRow(1).getCell(1) == board.getRow(2).getCell(0)
+        && board.getRow(2).getCell(0) == board.getRow(0).getCell(2)) {
       // We maybe have a winner
-      if (board[0][0] != empty) {
-        winner = board[0][0];
+      if (board.getRow(1).getCell(1) != board.EMPTY) {
+        winner = board.getRow(1).getCell(1);
       }
     }
-    if (winner != empty) {
-      System.out.println(winner + " wins!");
+    if (board.isFull()) {
+      winner = board.TIE;
+    }
+    return winner;
+  }
+
+  private void makeMove() {
+    System.out.println("It is " + board.getCurrentPlayerSign() + "'s turn. Type a number from 1-9");
+    Scanner s = new Scanner(System.in);
+    int move = -1;
+
+    try {
+      move = s.nextInt() - 1;
+      s.nextLine();
+      int x = move % 3;
+      int y = move / 3;
+
+      if (move < 0 || move > board.getSize() * board.getSize() - 1) {
+        System.out.println("Invalid move.");
+        System.out.println("");
+        makeMove();
+        return;
+      }
+      String existingValue = board.getRow(y).getCell(x);
+
+      if (existingValue != board.EMPTY) {
+        System.out.println("Invalid move.");
+        System.out.println("");
+        makeMove();
+        return;
+      }
+      board.getRow(y).setCell(x, board.getCurrentPlayerSign());
+      board.setCurrentPlayer((board.getCurrentPlayer() + 1) % 2);
+      board.print();
+    } catch (InputMismatchException e) {
+      System.out.println("Invalid move.");
+    } finally {
+      // s.close();
     }
   }
+
 }
