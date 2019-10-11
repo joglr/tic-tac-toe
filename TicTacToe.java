@@ -11,7 +11,7 @@ class TicTacToe {
     board.print();
     String winner = board.EMPTY;
 
-    while (!Arrays.stream(board.getPlayers()).anyMatch(winner::equals) || winner == board.TIE) {
+    while (winner == board.EMPTY) {
       makeMove();
       winner = checkWins();
     }
